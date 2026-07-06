@@ -65,6 +65,10 @@ def test_serving_grpc_requests(ray_cluster):
 
     serve.run(g)
 
+    # Get the ingress address dynamically
+    grpc_url = get_application_url("gRPC", use_localhost=True)
+    channel = grpc.insecure_channel(grpc_url)
+
     # Ensures ListApplications method succeeding.
     ping_grpc_list_applications(channel, [app_name])
 
