@@ -88,6 +88,7 @@ def test_serving_grpc_requests(ray_cluster):
     serve.run(g2)
 
     # Ensure model composition is responding correctly.
+    grpc_url = get_application_url("gRPC", use_localhost=True)
     channel = grpc.insecure_channel(grpc_url)
     ping_fruit_stand(channel, app_name)
 
