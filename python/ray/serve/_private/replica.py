@@ -890,12 +890,11 @@ class ReplicaMetricsManager:
                 application=app_name,
                 status_code=status_code,
             )
-            self._cached_ingress_request_counter[protocol][
-                frozenset(request_tags.items())
-            ] += 1
-            self._cached_ingress_processing_latencies[protocol][
-                frozenset(request_tags.items())
-            ].append(latency_ms)
+            request_key = frozenset(request_tags.items())
+            self._cached_ingress_request_counter[protocol][request_key] += 1
+            self._cached_ingress_processing_latencies[protocol][request_key].append(
+                latency_ms
+            )
             if is_error:
                 request_error_tags = RequestIngressMetrics.request_error_tags(
                     route=route,
