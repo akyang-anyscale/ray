@@ -2699,7 +2699,8 @@ class Replica:
             self._track_queued_request() as release_queue_slot,
         ):
             async with self._start_request(request_metadata):
-                self._num_queued_requests -= 1
+                # Acquired an ongoing-request slot, so it's running, not queued.
+                release_queue_slot()
 
                 # Use the generic disconnect/timeout detecting wrapper.
                 replica_response_generator = ReplicaResponseGenerator(
